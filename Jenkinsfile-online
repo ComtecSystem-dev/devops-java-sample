@@ -17,7 +17,6 @@ pipeline {
         DOCKERHUB_NAMESPACE = 'kim1014j'
         GITHUB_ACCOUNT = 'ComtecSystem-dev'
         APP_NAME = 'devops-java-sample'
-        SONAR_CREDENTIAL_ID = 'sonar-token'
     }
 
     stages {
@@ -35,22 +34,7 @@ pipeline {
             }
         }
 
-        stage('sonarqube analysis') {
-          steps {
-            container ('maven') {
-              withCredentials([string(credentialsId: "$SONAR_CREDENTIAL_ID", variable: 'SONAR_TOKEN')]) {
-                withSonarQubeEnv('sonar') {
-                 sh "mvn sonar:sonar -o -gs `pwd`/configuration/settings.xml -Dsonar.login=$SONAR_TOKEN"
-                }
-              }
-              timeout(time: 1, unit: 'HOURS') {
-                waitForQualityGate abortPipeline: true
-              }
-            }
-          }
-        }
-
-        stage ('build & push') {
+         stage ('build & push') {
             steps {
                 container ('maven') {
                     sh 'mvn -o -Dmaven.test.skip=true -gs `pwd`/configuration/settings.xml clean package'
