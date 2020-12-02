@@ -17,7 +17,7 @@ pipeline {
         DOCKERHUB_NAMESPACE = 'kim1014j'
         GITHUB_ACCOUNT = 'ComtecSystem-dev'
         APP_NAME = 'devops-java-sample'
-        SONAR_CREDENTIAL_ID = 'sonar-token'
+
     }
 
     stages {
